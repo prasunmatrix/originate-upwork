@@ -1,0 +1,9 @@
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Site Wallet') where setting_key='SITE_MAIN_WALLET';
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Site Profit Wallet') where setting_key='SITE_PROFIT_WALLET';
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Processing Fee Wallet') where setting_key='PROCESSING_FEE_WALLET';
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Paypal Wallet') where setting_key='PAYPAL_WALLET';
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Escrow Wallet') where setting_key='ESCROW_WALLET';
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Bank Wallet') where setting_key='BANK_WALLET';
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Dispute Wallet') where setting_key='DISPUTE_WALLET';
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Withdraw Wallet') where setting_key='WITHDRAW_WALLET';
+update `pref_settings` set setting_value=(SELECT `wallet_id` FROM `pref_wallet` where title='Stripe Wallet') where setting_key='STRIPE_WALLET';

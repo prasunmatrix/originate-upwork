@@ -1,0 +1,137 @@
+CREATE TABLE IF NOT EXISTS `pref_notifications_template` (
+  `notification_template_id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_key` varchar(150) NOT NULL,
+  `template_for` varchar(100) NOT NULL,
+  `all_template_keys` text NOT NULL,
+  `display_order` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`notification_template_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+
+--
+-- Truncate table before insert `pref_notifications_template`
+--
+
+TRUNCATE TABLE `pref_notifications_template`;
+--
+-- Dumping data for table `pref_notifications_template`
+--
+
+INSERT INTO `pref_notifications_template` (`notification_template_id`, `template_key`, `template_for`, `all_template_keys`, `display_order`, `status`) VALUES
+(1, 'admin-user-signup', 'Admin User Registration', ' ', 0, 1),
+(2, 'admin-document-verification', 'Admin New document Request', '  ', 0, 1),
+(3, 'admin-ad-post', 'Admin Ad Post', ' ', 0, 1),
+(4, 'admin-account-deactive-request', 'Admin Account Deactivitaion', ' ', 0, 1),
+(5, 'admin-user-contact-request', 'Admin User Contact Request', ' ', 0, 1),
+(6, 'admin-reported-ad', 'Admin Reported Ads', ' ', 0, 0),
+(7, 'admin-ad-featured', 'Admin Featured Ads', ' {PROJECT_TITLE} => Ad Title', 0, 0),
+(8, 'wallet-balance-error', 'Wallet balance error', ' {WALLET_ID} =>Wallet ID\r\n{TRANSACTION_ID}=> Transaction ID', 8, 1),
+(9, 'new-project-offer', 'New Offer', ' {TITLE} =>Project Name\r\n', 0, 1),
+(10, 'project-offer-accepted', 'Project Offer Accepted', ' {TITLE} =>Project Name\r\n', 0, 1),
+(11, 'project-offer-rejected', 'Project Offer Rejected', ' {TITLE} =>Project Name\r\n', 0, 1),
+(12, 'new-milestone-initiate', 'Milestone Initiate', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name\r\n{MILESTONE_TITLE}=>Milestone Name', 0, 1),
+(13, 'work-submission', 'Work Submit by Freelancer', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name\r\n{MILESTONE_TITLE}=>Milestone Name', 0, 1),
+(14, 'work-submission-accepted', 'Work Submit Accepted by Client', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name\r\n{MILESTONE_TITLE}=>Milestone Name', 0, 1),
+(15, 'work-submission-rejected', 'Work Submit Rejected by Client', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name\r\n{MILESTONE_TITLE}=>Milestone Name', 0, 1),
+(16, 'new-dispute-contract', 'New Dispute Create', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name\r\n{MILESTONE_TITLE}=>Milestone Name', 0, 1),
+(17, 'dispute-offer', 'New offer dispute', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name\r\n{MILESTONE_TITLE}=>Milestone Name', 0, 1),
+(18, 'dispute-resolve', 'Dispute Resolve', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name\r\n{MILESTONE_TITLE}=>Milestone Name', 0, 1),
+(19, 'end-contract', 'End Contract', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(20, 'pause-contract', 'Pause contract by Client', '{TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(21, 'resume-contract', 'Contract resume by client', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(22, 'hourly-work-submission', 'Hourly Work Submit by Freelancer', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(23, 'hourly-work-submission-accepted', 'Hourly Work Submit Accepted by Client', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(24, 'hourly-work-submission-rejected', 'Hourly Work Submit Rejected by Client', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(25, 'new-invoice-request', 'Hourly Invoice Request by Freelancer', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(26, 'hourly-invoice-accepted', 'Hourly Invoice Accepted by Client', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(27, 'hourly-invoice-rejected', 'Hourly Invoice Reject by Client', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name', 0, 1),
+(28, 'new-proposal', 'New Proposal Posted ', ' {TITLE}=> Project Title', 0, 1),
+(29, 'project-invitation', 'Invitation for project', ' {TITLE}=> Project Title', 0, 1),
+(30, 'dispute-send-to-admin', 'Dispute send to admin', ' {TITLE} =>Project Name\r\n{CONTRACT_TITLE}=>Contract Name\r\n{MILESTONE_TITLE}=>Milestone Name', 0, 1),
+(31, 'admin-reported-project', 'Admin Reported Project', 'TITLE', 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_notifications_template_names`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_notifications_template_names` (
+  `notification_template_id` int(11) NOT NULL,
+  `template_content` text NOT NULL,
+  `lang` char(3) NOT NULL,
+  UNIQUE KEY `notification_template_id` (`notification_template_id`,`lang`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Truncate table before insert `pref_notifications_template_names`
+--
+
+TRUNCATE TABLE `pref_notifications_template_names`;
+--
+-- Dumping data for table `pref_notifications_template_names`
+--
+
+INSERT INTO `pref_notifications_template_names` (`notification_template_id`, `template_content`, `lang`) VALUES
+(1, 'مستخدم جديد مسجل. الاسم {FULL_NAME}', 'ar'),
+(1, 'New User Registered . Name {FULL_NAME}', 'en'),
+(2, 'طلب التحقق من المستند الجديد. بواسطة: {MEMBER_NAME}', 'ar'),
+(2, 'New Document Verification Request. By: {MEMBER_NAME}', 'en'),
+(3, 'إعلان جديد تم نشره. العنوان: {TITLE}', 'ar'),
+(3, 'New Ad Posted . Title : {TITLE}', 'en'),
+(4, 'طلب إلغاء تنشيط الحساب بواسطة {NAME}.', 'ar'),
+(4, 'Account Deactivitation Request By {NAME} .', 'en'),
+(5, 'لديك طلب اتصال جديد.', 'ar'),
+(5, 'You have a new contact request.', 'en'),
+(6, 'أبلغ المستخدم عن الإعلان \"{AD_TITLE}\".', 'ar'),
+(6, 'Ad \"{AD_TITLE}\" is reported by a user.', 'en'),
+(7, 'تم تمييز الإعلان \"{PROJECT_TITLE}\" على أنه مميز', 'ar'),
+(7, 'Ad \"{PROJECT_TITLE}\" marked as featured', 'en'),
+(8, 'خطأ في رصيد المحفظة للمحفظة {WALLET_ID} بعد المعاملة {TRANSACTION_ID}.', 'ar'),
+(8, 'Wallet balance error for the wallet {WALLET_ID} after transaction {TRANSACTION_ID}.', 'en'),
+(9, 'لقد تلقيت عرضًا جديدًا للمشروع {TITLE}.', 'ar'),
+(9, 'You got a new offer for the project {TITLE}.', 'en'),
+(10, 'تم قبول عرضك لمشروع {TITLE}', 'ar'),
+(10, 'Your offer has been accepted for the project {TITLE}', 'en'),
+(11, 'تم رفض عرضك الخاص بالمشروع {TITLE}', 'ar'),
+(11, 'Your offer has been rejected for the project {TITLE}', 'en'),
+(12, 'بداية مهمة جديدة للمشروع {TITLE}', 'ar'),
+(12, 'New milestone Initiate for the project {TITLE}', 'en'),
+(13, 'طلب تقديم العمل للمشروع {TITLE}', 'ar'),
+(13, 'Work submission request for the project {TITLE}', 'en'),
+(14, 'تم قبول إرسالك للمشروع {TITLE}', 'ar'),
+(14, 'Your submission has been accepted for the project {TITLE}', 'en'),
+(15, 'تم رفض إرسالك للمشروع {TITLE}.', 'ar'),
+(15, 'Your submission has been rejected for the project {TITLE}.', 'en'),
+(16, 'لديك نزاع جديد بشأن المشروع {TITLE}', 'ar'),
+(16, 'You have a new dispute for the project {TITLE}', 'en'),
+(17, 'لديك عرض نزاع جديد بشأن المشروع {TITLE}', 'ar'),
+(17, 'You have new dispute offer for the project {TITLE}', 'en'),
+(18, 'تم حل النزاع بشأن المشروع {TITLE}', 'ar'),
+(18, 'Dispute has been resolved for the project {TITLE}', 'en'),
+(19, 'انتهى عقد جديد للمشروع {TITLE}', 'ar'),
+(19, 'New contract Ended for the project {TITLE}', 'en'),
+(20, 'Contract has been pause for the project {TITLE}', 'en'),
+(21, 'تم استئناف عقدك للمشروع {TITLE}', 'ar'),
+(21, 'Your contract has been resume for the project {TITLE}', 'en'),
+(22, 'طلب تقديم العمل للمشروع {TITLE}', 'ar'),
+(22, 'Work submission request for the project {TITLE}', 'en'),
+(23, 'تم قبول إرسالك للمشروع {TITLE}', 'ar'),
+(23, 'Your submission has been accepted for the project {TITLE}', 'en'),
+(24, 'تم رفض إرسالك للمشروع {TITLE}.', 'ar'),
+(24, 'Your submission has been rejected for the project {TITLE}.', 'en'),
+(25, 'طلب فاتورة بالساعة للمشروع {TITLE}', 'ar'),
+(25, 'Hourly Invoice Request for the project {TITLE}', 'en'),
+(26, 'تم قبول فاتورتك للمشروع {TITLE}.', 'ar'),
+(26, 'Your invoice has been accepted for the project {TITLE}.', 'en'),
+(27, 'تم رفض فاتورتك للمشروع {TITLE}.', 'ar'),
+(27, 'Your invoice has been rejected for the project {TITLE}.', 'en'),
+(28, 'لديك اقتراح جديد للمشروع {TITLE}.', 'ar'),
+(28, 'You have new proposal for the project {TITLE}.', 'en'),
+(29, 'لديك دعوة للمشروع {TITLE}', 'ar'),
+(29, 'You have invitation for the project {TITLE}', 'en'),
+(30, 'تم إرسال النزاع إلى المسؤول عن المشروع {TITLE}', 'ar'),
+(30, 'Dispute sent to admin for the project {TITLE}', 'en'),
+(31, 'User reported for the Project {TITLE}', 'ar'),
+(31, 'User reported for the Project {TITLE}', 'en');
+COMMIT;

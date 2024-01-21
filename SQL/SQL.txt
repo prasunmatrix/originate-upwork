@@ -1,0 +1,776 @@
+﻿
+-------------------
+ALTER TABLE `pref_member` ADD `is_employer` BOOLEAN NOT NULL AFTER `access_user_id`;
+ALTER TABLE `pref_access_panel` CHANGE `access_user_password` `access_user_password` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+---------------------------------------------------------------------------------------------------------------------------
+Date: 19.12.19
+
+ALTER TABLE `pref_mailtemplate` ADD `template_keys` TEXT NOT NULL AFTER `template_type`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_notifications`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_notifications` (
+`notification_id` int(11) NOT NULL,
+  `sender_id` int(11) DEFAULT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `notification_template` varchar(100) NOT NULL,
+  `notification_url` varchar(150) NOT NULL,
+  `notification_content` text NOT NULL,
+  `notification_date` datetime NOT NULL,
+  `is_read` tinyint(1) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_notifications_template`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_notifications_template` (
+`notification_template_id` int(11) NOT NULL,
+  `template_key` varchar(150) NOT NULL,
+  `template_for` varchar(100) NOT NULL,
+  `all_template_keys` text NOT NULL,
+  `display_order` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_notifications_template_names`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_notifications_template_names` (
+  `notification_template_id` int(11) NOT NULL,
+  `template_content` text NOT NULL,
+  `lang` char(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pref_notifications`
+--
+ALTER TABLE `pref_notifications`
+ ADD PRIMARY KEY (`notification_id`);
+
+--
+-- Indexes for table `pref_notifications_template`
+--
+ALTER TABLE `pref_notifications_template`
+ ADD PRIMARY KEY (`notification_template_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pref_notifications`
+--
+ALTER TABLE `pref_notifications`
+MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `pref_notifications_template`
+--
+ALTER TABLE `pref_notifications_template`
+MODIFY `notification_template_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+
+
+ALTER TABLE `pref_project_bids` ADD `bid_attachment` TEXT NOT NULL AFTER `bid_details`;
+CREATE TABLE `pref_project_bid_answer` ( `bid_id` INT NOT NULL , `question_id` INT NOT NULL , `question_answer` TEXT NULL ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+ALTER TABLE `pref_project_contract` ADD `contract_title` VARCHAR(250) NOT NULL AFTER `bid_id`;
+ALTER TABLE `pref_project_contract_milestone` ADD `milestone_title` VARCHAR(250) NOT NULL AFTER `contract_id`;
+
+ALTER TABLE `pref_project_contract_milestone_submission` ADD `submission_attachment` TEXT NOT NULL AFTER `submission_description`;
+ALTER TABLE `pref_project_contract_milestone_submission` CHANGE `submission_attachment` `submission_attachment` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+ALTER TABLE `pref_project_bids` CHANGE `bid_duration` `bid_duration` VARCHAR(15) NOT NULL;
+
+ALTER TABLE `pref_project_bids` CHANGE `bid_attachment` `bid_attachment` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+ALTER TABLE `pref_project_bid_milestones` CHANGE `bid_milestone_id` `bid_milestone_id` INT(11) NOT NULL;
+ALTER TABLE pref_project_bid_milestones DROP PRIMARY KEY;
+
+26.12.2019
+
+INSERT INTO `pref_setting_group` (`setting_group_id`, `group_name`, `group_key`, `status`) VALUES
+(4, 'Email', 'email', 1);
+
+ALTER TABLE `pref_profile_verify_token` ADD `access_user_id` INT NOT NULL FIRST;
+
+----------------------------------------------------
+26.12.19
+
+ALTER TABLE `pref_category` ADD `category_thumb` VARCHAR(100) NOT NULL AFTER `category_key`, ADD `category_icon` VARCHAR(100) NOT NULL AFTER `category_thumb`;
+
+ALTER TABLE `pref_category` ADD `is_featured` TINYINT NOT NULL ;
+
+ALTER TABLE `pref_category_names` ADD `description` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `category_name`;
+
+ALTER TABLE `pref_category_subchild_names` ADD `description` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `category_subchild_name`;
+
+ALTER TABLE `pref_member` ADD `is_doc_verified` BOOLEAN  NULL AFTER `is_phone_verified`;
+
+CREATE TABLE `pref_member_document_application` ( `document_id` INT NOT NULL AUTO_INCREMENT , `member_id` INT NOT NULL , `document_data` TEXT NOT NULL , `document_date` DATETIME NOT NULL , `document_status` BOOLEAN NOT NULL , `reject_reason` TEXT NULL , PRIMARY KEY (`document_id`)) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+ALTER TABLE `pref_admin_notifications` ADD `link` TEXT NULL AFTER `read_status`, ADD `template_key` VARCHAR(100) NULL AFTER `link`;
+
+CREATE TABLE IF NOT EXISTS `pref_skill_speciality` (
+  `speciality_id` int(11) NOT NULL COMMENT 'Sub category id',
+  `skill_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+------------
+ALTER TABLE `pref_project_contract` CHANGE `contract_hourly_rate` `contract_amount` FLOAT(10,2) NULL DEFAULT NULL;   
+ALTER TABLE `pref_project_contract` ADD `offer_by` INT NOT NULL AFTER `contract_end_date`, ADD `contract_status` BOOLEAN NOT NULL AFTER `offer_by`;
+ALTER TABLE `pref_project_contract` ADD `contractor_id` INT NOT NULL AFTER `project_id`;
+ALTER TABLE `pref_project_contract` ADD `is_hourly` BOOLEAN NOT NULL AFTER `contract_amount`;
+ALTER TABLE `pref_project_contract` ADD `contract_details` VARCHAR(255) NOT NULL AFTER `is_hourly`;
+ALTER TABLE `pref_project_contract` ADD `contract_attachment` VARCHAR(250) NOT NULL AFTER `contract_details`;
+ALTER TABLE `pref_project_contract_milestone` CHANGE `milestone_end_date` `milestone_due_date` DATETIME NULL DEFAULT NULL;
+ALTER TABLE `pref_project_contract_milestone` CHANGE `milestone_due_date` `milestone_due_date` DATE NULL DEFAULT NULL;
+ALTER TABLE `pref_project_contract_milestone_submission` CHANGE `submission_attachment` `submission_attachment` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+CREATE TABLE `pref_project_payment_escrow` ( `payment_escrow_id` INT NOT NULL AUTO_INCREMENT , `project_id` INT NOT NULL , `credit` DECIMAL NOT NULL , `debit` DECIMAL NOT NULL , `trn_id` INT NOT NULL , `status` BOOLEAN NOT NULL , PRIMARY KEY (`payment_escrow_id`)) ENGINE = InnoDB;
+ALTER TABLE `pref_project_payment_escrow` CHANGE `credit` `credit` DECIMAL(10,2) NOT NULL, CHANGE `debit` `debit` DECIMAL(10,2) NOT NULL;
+
+
+CREATE TABLE `pref_online_transaction_data` (
+  `online_id` int(11) NOT NULL,
+  `payment_type` char(10) NOT NULL,
+  `content_key` varchar(200) NOT NULL,
+  `request_value` text NOT NULL,
+  `response_value` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+CREATE TABLE `pref_wallet_transaction` (
+  `wallet_transaction_id` int(11) NOT NULL,
+  `wallet_transaction_type_id` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `admin_message` varchar(255) NOT NULL,
+  `admin_message_date` datetime NOT NULL,
+  `created_date` datetime NOT NULL,
+  `transaction_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `pref_wallet_transaction_row` (
+  `wallet_transaction_row_id` int(11) NOT NULL,
+  `wallet_transaction_id` int(11) NOT NULL,
+  `wallet_id` int(11) NOT NULL,
+  `debit` decimal(10,4) NOT NULL,
+  `credit` decimal(10,4) NOT NULL,
+  `description_tkey` varchar(45) NOT NULL,
+  `relational_data` varchar(255) NOT NULL,
+  `ref_data_cell` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `pref_wallet_transaction_type` (
+  `wallet_transaction_type_id` int(11) NOT NULL,
+  `title_tkey` varchar(45) NOT NULL,
+  `description_tkey` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `pref_online_transaction_data`
+  ADD PRIMARY KEY (`online_id`);
+
+ALTER TABLE `pref_wallet_transaction`
+  ADD PRIMARY KEY (`wallet_transaction_id`);
+
+
+ALTER TABLE `pref_wallet_transaction_row`
+  ADD PRIMARY KEY (`wallet_transaction_row_id`);
+
+
+ALTER TABLE `pref_wallet_transaction_type`
+  ADD PRIMARY KEY (`wallet_transaction_type_id`);
+
+ALTER TABLE `pref_online_transaction_data`
+  MODIFY `online_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `pref_wallet_transaction`
+  MODIFY `wallet_transaction_id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `pref_wallet_transaction_row`
+  MODIFY `wallet_transaction_row_id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `pref_wallet_transaction_type`
+  MODIFY `wallet_transaction_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  
+  
+  ALTER TABLE `pref_project_contract` CHANGE `contract_details` `contract_details` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `contract_attachment` `contract_attachment` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+  
+  
+  
+  CREATE TABLE `pref_project_contract_offer` ( `contract_id` INT NOT NULL , `contract_details` VARCHAR(250) NOT NULL , `contract_attachment` TEXT NOT NULL , `max_hour_limit` FLOAT(10,2) NOT NULL , `allow_manual_hour` BOOLEAN NOT NULL ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+  
+  ALTER TABLE `pref_project_contract_offer` CHANGE `contract_details` `contract_details` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `contract_attachment` `contract_attachment` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+  
+ALTER TABLE `pref_project_contract`
+  DROP `contract_details`,
+  DROP `contract_attachment`;
+
+ALTER TABLE `pref_project_payment_escrow` CHANGE `trn_id` `trn_id` INT(11) NULL;
+
+
+ALTER TABLE `pref_online_transaction_data` ADD `status` BOOLEAN NOT NULL AFTER `response_value`;
+ALTER TABLE `pref_online_transaction_data` ADD `reg_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `response_value`;
+
+INSERT INTO `pref_wallet` ( `user_id`, `title`, `balance`, `withdrawn`, `used_purchases`, `pending_clearance`, `month_earnings`) VALUES
+( 0, 'Site Wallet', 0.00, '0', '0', '0', '0'),
+(0, 'Site Profit Wallet', 0.00, '0', '0', '0', '0'),
+( 0, 'Processing Fee Wallet', 0.00, '0', '0', '0', '0'),
+( 0, 'Paypal Wallet', 0.00, '0', '0', '0', '0');
+
+INSERT INTO `pref_wallet_transaction_type` (`wallet_transaction_type_id`, `title_tkey`, `description_tkey`) VALUES
+(1, 'ADD_FUND_PAYPAL', 'Add Fund By Paypal'),
+(2, 'WITHDRAW', 'Withdraw');
+
+ALTER TABLE `pref_online_transaction_data` ADD `tran_id` INT NOT NULL AFTER `reg_date`;
+
+--------------Live Done---------------
+
+INSERT INTO `pref_wallet` ( `user_id`, `title`, `balance`, `withdrawn`, `used_purchases`, `pending_clearance`, `month_earnings`) VALUES
+( 0, 'Escrow Wallet', 0.00, '0', '0', '0', '0');
+INSERT INTO `pref_wallet_transaction_type` (`wallet_transaction_type_id`, `title_tkey`, `description_tkey`) VALUES
+(3, 'ESCROW_DEPOSIT', 'Project Payment Towards Escrow');
+
+ALTER TABLE `pref_project_payment_escrow` ADD `contract_id` INT NOT NULL AFTER `trn_id`;
+
+INSERT INTO `pref_wallet_transaction_type` (`wallet_transaction_type_id`, `title_tkey`, `description_tkey`) VALUES
+(4, 'ESCROW_RELEASE', 'Project Payment Release From Escrow');
+
+INSERT INTO `pref_wallet_transaction_type` (`wallet_transaction_type_id`, `title_tkey`, `description_tkey`) VALUES
+(5, 'ADD_FUND_BY_ADMIN', 'Add Fund By Admin');
+
+INSERT INTO `pref_wallet` ( `user_id`, `title`, `balance`, `withdrawn`, `used_purchases`, `pending_clearance`, `month_earnings`) VALUES
+( 0, 'Bank Wallet', 0.00, '0', '0', '0', '0');
+
+ALTER TABLE `pref_member_basic` ADD `available_per_week` INT NOT NULL AFTER `member_hourly_rate`;
+ALTER TABLE `pref_member_basic` ADD `not_available_until` DATE NULL DEFAULT NULL AFTER `available_per_week`;
+
+CREATE TABLE IF NOT EXISTS `pref_badges` (
+`badge_id` int(11) NOT NULL,
+  `icon_image` varchar(100) NOT NULL,
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `pref_badges_names` (
+  `badge_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `lang` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE IF NOT EXISTS `pref_member_badges` (
+  `member_id` int(11) NOT NULL,
+  `badge_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `pref_badges`
+ ADD PRIMARY KEY (`badge_id`);
+
+ALTER TABLE `pref_badges`
+MODIFY `badge_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+
+ALTER TABLE `pref_member_basic` CHANGE `available_per_week` `available_per_week` VARCHAR(20) NULL DEFAULT NULL;
+ALTER TABLE `pref_badges` ADD `display_order` INT NOT NULL ;
+
+-------------------LIve done -------------------
+CREATE TABLE IF NOT EXISTS `pref_cms_help` (
+  `cms_help_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cms_help_slug` varchar(255) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  PRIMARY KEY (`cms_help_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pref_cms_help`
+--
+
+INSERT INTO `pref_cms_help` (`cms_help_id`, `cms_help_slug`, `parent_id`, `status`) VALUES
+(1, 'panel-one', 0, 1),
+(2, 'panel-two', 0, 1),
+(3, 'panel-3', 0, 1),
+(4, 'sub-panel-one', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_cms_help_article`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_cms_help_article` (
+  `cms_help_article_id` int(11) NOT NULL AUTO_INCREMENT,
+  `slug` varchar(255) NOT NULL,
+  `cms_help_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  PRIMARY KEY (`cms_help_article_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pref_cms_help_article`
+--
+
+INSERT INTO `pref_cms_help_article` (`cms_help_article_id`, `slug`, `cms_help_id`, `status`) VALUES
+(1, 'article-test', 4, 1),
+(2, 'test-article', 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_cms_help_article_names`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_cms_help_article_names` (
+  `cms_help_article_id` int(11) NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pref_cms_help_article_names`
+--
+
+INSERT INTO `pref_cms_help_article_names` (`cms_help_article_id`, `lang`, `title`, `description`) VALUES
+(1, 'en', 'Article 1', '<p>Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 Article 1 </p>'),
+(2, 'en', 'article 2', '<p>article 2article 2</p>');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_cms_help_names`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_cms_help_names` (
+  `cms_help_id` int(11) NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `title` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pref_cms_help_names`
+--
+
+INSERT INTO `pref_cms_help_names` (`cms_help_id`, `lang`, `title`) VALUES
+(1, 'en', 'Panel 1'),
+(2, 'en', 'Panel 2'),
+(3, 'en', 'Panel 3'),
+(4, 'en', 'Sub Panel 1');
+
+  
+  ALTER TABLE `pref_adminmenu` CHANGE `style_class` `style_class` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'i-menu-6';
+  
+
+
+------------------------------------------------------------------------------------------------------------------
+---- 14.01.20 ---------
+
+ CREATE TABLE IF NOT EXISTS `pref_commission_slab` (
+`commission_slab_id` int(11) NOT NULL,
+  `min_value` int(10) unsigned NOT NULL,
+  `max_value` int(10) unsigned NOT NULL,
+  `commission_percent` float(10,2) NOT NULL,
+  `display_order` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pref_commission_slab`
+--
+
+INSERT INTO `pref_commission_slab` (`commission_slab_id`, `min_value`, `max_value`, `commission_percent`, `display_order`, `status`) VALUES
+(1, 0, 1000, 20.00, 1, 1),
+(2, 1001, 5000, 15.00, 2, 1),
+(3, 5001, 10000, 10.00, 3, 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pref_commission_slab`
+--
+ALTER TABLE `pref_commission_slab`
+ ADD PRIMARY KEY (`commission_slab_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pref_commission_slab`
+--
+ALTER TABLE `pref_commission_slab`
+MODIFY `commission_slab_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+
+
+CREATE TABLE `pref_project_contract_hour_log` ( `log_id` INT NOT NULL AUTO_INCREMENT , `contract_id` INT NOT NULL , `start_time` DATE NOT NULL , `end_time` DATE NOT NULL , `reg_date` DATETIME NOT NULL , `task_id` INT NULL DEFAULT NULL , `total_time_worked` INT NOT NULL , PRIMARY KEY (`log_id`)) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE `pref_project_contract_hour_log_info` ( `log_id` INT NOT NULL , `log_attachment` TEXT NOT NULL , `log_details` TEXT NOT NULL ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+ALTER TABLE `pref_project_contract_hour_log` ADD `reject_reason` VARCHAR(250) NOT NULL AFTER `total_time_worked`, ADD `log_status` BOOLEAN NOT NULL AFTER `reject_reason`;
+ALTER TABLE `pref_project_contract_hour_log` ADD `log_title` VARCHAR(250) NOT NULL AFTER `contract_id`;
+ALTER TABLE `pref_project_contract_hour_log_info` CHANGE `log_attachment` `log_attachment` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `pref_project_contract_hour_log_info` CHANGE `log_details` `log_details` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `pref_project_contract_hour_log` ADD `invoice_id` INT NULL AFTER `log_status`;
+
+--------------live done------------
+
+CREATE TABLE `pref_invoice` ( `invoice_id` INT NOT NULL AUTO_INCREMENT , `invoice_type_id` INT NOT NULL , `invoice_number` INT NOT NULL , `issuer_member_id` INT NOT NULL , `issuer_organization_id` INT NULL , `recipient_member_id` INT NOT NULL , `recipient_organization_id` INT NULL , `invoice_date` DATETIME NOT NULL , `recipient_email` VARCHAR(150) NOT NULL , `invoice_amount` DECIMAL(10,2) NOT NULL , `round_up_amount` FLOAT(6,2) NOT NULL , `invoice_status` BOOLEAN NOT NULL , PRIMARY KEY (`invoice_id`)) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE `pref_invoice_row` ( `invoice_row_id` INT NOT NULL AUTO_INCREMENT , `invoice_id` INT NOT NULL , `invoice_row_text` TEXT NOT NULL , `invoice_row_amount` DECIMAL(10,2) NOT NULL , `invoice_row_unit` VARCHAR(45) NOT NULL , `invoice_row_unit_price` DECIMAL(10,2) NOT NULL , PRIMARY KEY (`invoice_row_id`)) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE `pref_invoice_type` ( `invoice_type_id` INT NOT NULL AUTO_INCREMENT , `name_tkey` VARCHAR(45) NOT NULL , `description_tkey` VARCHAR(250) NOT NULL , PRIMARY KEY (`invoice_type_id`)) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE `pref_invoice_reference` ( `invoice_id` INT NOT NULL , `issuer_information` LONGTEXT NOT NULL , `recipient_information` LONGTEXT NOT NULL ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+INSERT INTO `pref_settings` (`id`, `title`, `setting_key`, `setting_value`, `editable`, `deletable`, `display_order`, `setting_group`) VALUES (NULL, 'Invoice Number', 'INVOICE_NUMBER', '0', '0', '0', '10', 'constants');
+ALTER TABLE `pref_invoice` CHANGE `invoice_amount` `paid_amount` DECIMAL(10,2) NOT NULL;
+INSERT INTO `pref_invoice_type` (`invoice_type_id`, `name_tkey`, `description_tkey`) VALUES (NULL, 'invoice', 'invoice');
+
+CREATE TABLE `pref_project_contract_invoice` ( `project_contract_invoice_id` INT NOT NULL AUTO_INCREMENT , `project_id` INT NOT NULL , `invoice_id` INT NOT NULL , `contract_id` INT NOT NULL , PRIMARY KEY (`project_contract_invoice_id`)) ENGINE = InnoDB;
+
+--------------live done------------
+
+ALTER TABLE `pref_invoice` ADD `change_reason` VARCHAR(250) NOT NULL AFTER `round_up_amount`;
+ALTER TABLE `pref_project_bids` CHANGE `bid_duration` `bid_duration` VARCHAR(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+--------------live done------------
+
+CREATE TABLE IF NOT EXISTS `pref_conversations` (
+`conversations_id` int(11) NOT NULL,
+  `last_message_id` int(11) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_conversations_message`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_conversations_message` (
+`message_id` int(11) NOT NULL,
+  `conversations_id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `sending_date` datetime NOT NULL,
+  `message` text NOT NULL,
+  `attachment` varchar(150) DEFAULT NULL,
+  `is_read` tinyint(1) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pref_conversations_room`
+--
+
+CREATE TABLE IF NOT EXISTS `pref_conversations_room` (
+  `conversations_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `auth_status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pref_conversations`
+--
+ALTER TABLE `pref_conversations`
+ ADD PRIMARY KEY (`conversations_id`);
+
+--
+-- Indexes for table `pref_conversations_message`
+--
+ALTER TABLE `pref_conversations_message`
+ ADD PRIMARY KEY (`message_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pref_conversations`
+--
+ALTER TABLE `pref_conversations`
+MODIFY `conversations_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `pref_conversations_message`
+--
+ALTER TABLE `pref_conversations_message`
+MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+
+
+
+CREATE TABLE `pref_contract_reviews` ( `review_id` INT NOT NULL AUTO_INCREMENT , `contract_id` INT NOT NULL , `review_by` INT NOT NULL , `review_to` INT NOT NULL , `for_skill` FLOAT(5,2) NOT NULL , `for_quality` FLOAT(5,2) NOT NULL , `for_availability` FLOAT(5,2) NOT NULL , `for_deadlines` FLOAT(5,2) NOT NULL , `for_communication` FLOAT(5,2) NOT NULL , `for_cooperation` FLOAT(5,2) NOT NULL, `average_review` FLOAT(5,2) NOT NULL , `review_status` BOOLEAN NOT NULL , `is_display_public` BOOLEAN NOT NULL , `review_comments` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , PRIMARY KEY (`review_id`)) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+ALTER TABLE `pref_contract_reviews` ADD `review_date` DATETIME NOT NULL AFTER `review_comments`;
+ALTER TABLE `pref_contract_reviews` ADD `project_id` INT NOT NULL AFTER `review_id`;
+ALTER TABLE `pref_contract_reviews` CHANGE `for_skill` `for_skills` FLOAT(5,2) NOT NULL;
+
+CREATE TABLE `pref_member_statistics` ( `member_id` INT NOT NULL , `avg_rating` FLOAT(5,2) NOT NULL , `total_earning` DECIMAL(10,2) NOT NULL , `total_spent` DECIMAL(10,2) NOT NULL , `no_of_reviews` INT NOT NULL ) ENGINE = InnoDB;
+
+ALTER TABLE `pref_conversations_room` ADD `last_seen_msg` INT UNSIGNED NOT NULL AFTER `user_id`;
+
+ALTER TABLE `pref_conversations_message` CHANGE `attachment` `attachment` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+
+ALTER TABLE `pref_project_bid_milestones` CHANGE `bid_milestone_due_date` `bid_milestone_due_date` DATE NULL;
+
+ALTER TABLE `pref_conversations` ADD `project_id` INT NOT NULL AFTER `status`;
+ALTER TABLE `pref_project_contract` ADD `is_pause` BOOLEAN NOT NULL AFTER `is_hourly`;
+
+----------------------------------------------
+--- 27.01.20
+-------
+
+CREATE TABLE IF NOT EXISTS `pref_member_notifications` (
+`notification_id` int(11) NOT NULL,
+  `notification_from` int(11) NOT NULL,
+  `notification_to` int(11) NOT NULL,
+  `notification_template_key` varchar(255) NOT NULL,
+  `template_data` text NOT NULL,
+  `link` text NOT NULL,
+  `read_status` tinyint(2) NOT NULL,
+  `sent_date` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pref_member_notifications`
+--
+ALTER TABLE `pref_member_notifications`
+ ADD PRIMARY KEY (`notification_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pref_member_notifications`
+--
+ALTER TABLE `pref_member_notifications`
+MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+
+----------------------
+ALTER TABLE `pref_project_contract_milestone` ADD `is_escrow` BOOLEAN NOT NULL AFTER `contract_id`;
+
+CREATE TABLE `pref_project_contract_dispute` ( `project_contract_dispute_id` INT NOT NULL AUTO_INCREMENT , `contract_id` INT NOT NULL , `contract_milestone_id` INT NULL , `dispute_status` BOOLEAN NOT NULL , `dispute_date` DATETIME NOT NULL , `dispute_reason` TEXT NOT NULL , `disputed_amount` DECIMAL(10,2) NOT NULL , PRIMARY KEY (`project_contract_dispute_id`)) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+ALTER TABLE `pref_project_contract_dispute` CHANGE `dispute_reason` `dispute_reason` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+INSERT INTO `pref_wallet` ( `user_id`, `title`, `balance`, `withdrawn`, `used_purchases`, `pending_clearance`, `month_earnings`) VALUES
+( 0, 'Dispute Wallet', 0.00, '0', '0', '0', '0');
+INSERT INTO `pref_wallet_transaction_type` ( `title_tkey`, `description_tkey`) VALUES
+( 'ESCROW_DISPUTE', 'Project Payment Towards dispute');
+
+ALTER TABLE `pref_project_contract_dispute` ADD `commission_amount` DECIMAL(10,2) NOT NULL AFTER `disputed_amount`, ADD `owner_amount` DECIMAL(10,2) NOT NULL AFTER `commission_amount`, ADD `contractor_amount` DECIMAL(10,2) NOT NULL AFTER `owner_amount`;
+
+
+INSERT INTO `pref_wallet_transaction_type` ( `title_tkey`, `description_tkey`) VALUES
+( 'DISPUTE_RESOLVE', 'Project Payment Dispute Resolve');
+
+CREATE TABLE `pref_project_contract_dispute_submission` (
+  `submission_id` int(11) NOT NULL,
+  `project_contract_dispute_id` int(11) NOT NULL,
+  `contract_milestone_id` int(11) DEFAULT NULL,
+  `submitted_by` int(11) NOT NULL,
+  `submission_description` varchar(250) DEFAULT NULL,
+  `submission_attachment` text,
+  `submission_date` datetime DEFAULT NULL,
+  `is_approved` tinyint(1) NOT NULL,
+  `commission_amount` decimal(10,2) NOT NULL,
+  `owner_amount` decimal(10,2) NOT NULL,
+  `contractor_amount` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pref_project_contract_dispute_submission`
+--
+ALTER TABLE `pref_project_contract_dispute_submission`
+  ADD PRIMARY KEY (`submission_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pref_project_contract_dispute_submission`
+--
+ALTER TABLE `pref_project_contract_dispute_submission`
+  MODIFY `submission_id` int(11) NOT NULL AUTO_INCREMENT;
+  
+  
+  ALTER TABLE `pref_member_statistics` ADD `total_working_hour` DECIMAL(10,2) NOT NULL AFTER `no_of_reviews`;
+----------Done -----
+CREATE TABLE `pref_favorite_member` ( `member_id` INT NOT NULL , `favorite_member_id` INT NOT NULL , `reg_date` DATETIME NOT NULL ) ENGINE = InnoDB;
+CREATE TABLE `pref_favorite_project` ( `member_id` INT NOT NULL , `project_id` INT NOT NULL , `reg_date` DATETIME NOT NULL ) ENGINE = InnoDB;
+--------done------
+ALTER TABLE `pref_member_statistics` ADD `success_rate` INT NOT NULL AFTER `total_working_hour`;
+----------done------
+CREATE TABLE `pref_member_withdraw_account` ( `account_id` INT NOT NULL AUTO_INCREMENT , `member_id` INT NOT NULL , `peyment_type` TINYTEXT NULL , `account_heading` VARCHAR(150) NULL , `acount_details` TEXT NULL , `account_status` TINYINT NULL , PRIMARY KEY (`account_id`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+
+INSERT INTO `pref_wallet` ( `user_id`, `title`, `balance`, `withdrawn`, `used_purchases`, `pending_clearance`, `month_earnings`) VALUES
+( 0, 'Withdraw Wallet', 0.00, '0', '0', '0', '0');
+INSERT INTO `pref_settings` ( `title`, `setting_key`, `setting_value`, `editable`, `deletable`, `display_order`, `setting_group`) VALUES
+( 'Withdraw Wallet', 'WITHDRAW_WALLET', '28', 0, 0, 0, 'constants');
+ALTER TABLE `pref_member_withdraw_account` CHANGE `peyment_type` `payment_type` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `pref_member_withdraw_account` ADD `reg_date` DATETIME NULL AFTER `account_status`;
+
+-------------
+CREATE TABLE `pref_cms_temp` ( `cms_page` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `cms_type` TINYTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `cms_content` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `cms_order` INT NOT NULL ) ENGINE = InnoDB;
+ALTER TABLE `pref_cms_temp` ADD `cms_key` VARCHAR(100) NOT NULL FIRST, ADD UNIQUE (`cms_key`);
+CREATE TABLE `upwork`.`pref_cms_temp_part` ( `cms_key` VARCHAR(150) NOT NULL , `part_id` INT NOT NULL , `part_class` VARCHAR(150) NULL , `part_content` LONGTEXT NULL ) ENGINE = InnoDB;
+ALTER TABLE `pref_cms_temp` ADD `cms_class` VARCHAR(150) NULL AFTER `cms_page`;
+ALTER TABLE `pref_cms_temp` DROP `cms_content`;
+ALTER TABLE `pref_cms_temp_part` ADD `part_order` INT NOT NULL AFTER `part_content`;
+ALTER TABLE `pref_cms_temp_part` ADD UNIQUE( `cms_key`, `part_id`);
+ALTER TABLE `pref_cms_temp` CHANGE `cms_type` `child_class` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `pref_cms_temp` ADD `section_type` CHAR(3) NOT NULL AFTER `cms_page`;
+ALTER TABLE `pref_cms_temp_part` DROP INDEX `cms_key`;
+ALTER TABLE `pref_cms_temp_part` ADD `lang` CHAR(2) NOT NULL DEFAULT 'en' AFTER `part_order`;
+---------
+
+CREATE TABLE `pref_testimonial` (
+  `testimonial_id` int(11) NOT NULL,
+  `logo` varchar(150) NOT NULL,
+  `testimonial_status` tinyint(1) NOT NULL,
+  `display_order` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `pref_testimonial_names` (
+  `testimonial_id` int(11) NOT NULL,
+  `name` char(52) NOT NULL DEFAULT '',
+  `company_name` varchar(150) NOT NULL,
+  `description` text NOT NULL,
+  `lang` char(3) NOT NULL DEFAULT 'en'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `pref_testimonial` ADD PRIMARY KEY (`testimonial_id`);
+
+ALTER TABLE `pref_testimonial`  MODIFY `testimonial_id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+CREATE TABLE `pref_section_boxes` (
+  `box_id` int(10) NOT NULL,
+  `box_image` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `display_order` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `pref_section_boxes_names` (
+  `box_id` int(10) NOT NULL,
+  `lang` char(3) NOT NULL,
+  `name` text NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `pref_section_boxes` ADD PRIMARY KEY (`box_id`);
+ALTER TABLE `pref_section_boxes` MODIFY `box_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+CREATE TABLE `pref_home_section_slider` (
+  `slide_id` int(100) NOT NULL,
+  `slide_image` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `pref_home_section_slider_names` (
+  `slide_id` int(10) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `slide_image` text NOT NULL,
+  `lang` char(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `pref_home_section_slider` ADD PRIMARY KEY (`slide_id`);
+ALTER TABLE `pref_home_section_slider` MODIFY `slide_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+ALTER TABLE `pref_home_section_slider` ADD `display_order` INT NOT NULL AFTER `slide_image`;
+----------------
+ALTER TABLE `pref_member_portfolio` ADD `portfolio_image` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `portfolio_url`;
+ALTER TABLE `pref_conversations_message` ADD `reply_to` INT NULL AFTER `is_read`, ADD `is_deleted` DATETIME NULL AFTER `reply_to`, ADD `is_edited` DATETIME NULL AFTER `is_deleted`;
+CREATE TABLE `pref_conversations_message_favorite` ( `message_id` INT NOT NULL , `member_id` INT NOT NULL ) ENGINE = InnoDB;
+ALTER TABLE `pref_conversations_message_favorite` ADD UNIQUE( `message_id`, `member_id`);
+CREATE TABLE `pref_conversations_message_edited` ( `mesage_id` INT NOT NULL , `message_org` TEXT NOT NULL , `edit_date` DATETIME NOT NULL , `edit_id` INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (`edit_id`), INDEX (`mesage_id`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+--------------
+ALTER TABLE `pref_project_contract_dispute` ADD `is_send_to_admin` BOOLEAN NOT NULL AFTER `contractor_amount`;
+--------
+INSERT INTO `pref_wallet` ( `user_id`, `title`, `balance`, `withdrawn`, `used_purchases`, `pending_clearance`, `month_earnings`) VALUES
+( 0, 'Stripe Wallet', 0.00, '0', '0', '0', '0');
+----------02042021---------
+CREATE TABLE `pref_membership` ( `membership_id` INT NOT NULL AUTO_INCREMENT , `membership_bid` SMALLINT NOT NULL , `membership_portfolio` SMALLINT NOT NULL , `membership_skills` SMALLINT NOT NULL , `membership_status` BOOLEAN NOT NULL , PRIMARY KEY (`membership_id`)) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE TABLE `pref_membership_names` ( `membership_id` INT NOT NULL , `name` VARCHAR(200) NOT NULL , `description` TEXT NOT NULL , `lang` INT NOT NULL ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;
+ALTER TABLE `pref_membership_names` ADD UNIQUE( `membership_id`, `lang`);
+ALTER TABLE `pref_membership` ADD `membership_commission_percent` FLOAT(6,2) NOT NULL AFTER `membership_skills`;
+CREATE TABLE `pref_membership_badge` (
+  `membership_id` int(11) NOT NULL,
+  `badge_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `pref_membership_badge` ADD UNIQUE KEY `membership_id` (`membership_id`,`badge_id`);
+ALTER TABLE `pref_membership` ADD `display_order` TINYINT NOT NULL AFTER `membership_status`;
+ALTER TABLE `pref_membership_names` CHANGE `lang` `lang` CHAR(2) NOT NULL;
+ALTER TABLE `pref_membership` ADD `price_per_month` DECIMAL(10,2) NOT NULL AFTER `membership_commission_percent`, ADD `price_per_year` DECIMAL(10,2) NOT NULL AFTER `price_per_month`;
+
+CREATE TABLE `pref_member_membership` ( `member_id` INT NOT NULL , `membership_id` INT NOT NULL , `is_free` INT NOT NULL , `membership_expire_date` DATE NOT NULL , `max_bid` INT NOT NULL , `max_portfolio` INT NOT NULL , `max_skills` INT NOT NULL , `commission_percent` FLOAT(6,2) NOT NULL , UNIQUE (`member_id`)) ENGINE = InnoDB;
+ALTER TABLE `pref_member_membership` CHANGE `is_free` `is_free` BOOLEAN NOT NULL;
+CREATE TABLE `pref_member_membership_log` ( `member_id` INT NOT NULL , `membership_id` INT NOT NULL , `membership_duration` CHAR(6) NOT NULL , `reg_date` DATETIME NOT NULL , `log_id` INT NOT NULL AUTO_INCREMENT , PRIMARY KEY (`log_id`)) ENGINE = InnoDB;
+
+--
+--12062021-
+--
+CREATE TABLE `pref_reports` (
+  `id` int(10) NOT NULL,
+  `reporter_id` int(10) NOT NULL,
+  `content_id` int(10) NOT NULL,
+  `content_type` varchar(255) NOT NULL,
+  `reason` varchar(255) NOT NULL,
+  `additional_information` text NOT NULL,
+  `status` tinyint(1) DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `pref_reports` ADD PRIMARY KEY (`id`);
+ALTER TABLE `pref_reports` MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+UPDATE `pref_adminmenu` SET `name` = 'Report Incorrect', `title` = 'Report Incorrect', `style_class` = 'icon-material-outline-bug-report', `status` = '1' WHERE `pref_adminmenu`.`id` = 61;
+
+--
+--02072021
+--
+
+INSERT INTO `pref_setting_group` (`setting_group_id`, `group_name`, `group_key`, `status`) VALUES
+(NULL, 'Social', 'social', 1);
+INSERT INTO `pref_settings` (`id`, `title`, `setting_key`, `setting_value`, `editable`, `deletable`, `display_order`, `setting_group`) VALUES
+(NULL, 'Facebook Link', 'facebook_url', 'https://facebook.com', 1, 0, 1, 'social'),
+(NULL, 'Twitter Link', 'twitter_url', 'https://twitter.com', 1, 0, 2, 'social'),
+(NULL, 'LinkedIn Link', 'linkedin_url', 'https://linkedin.com', 1, 0, 3, 'social'),
+(NULL, 'Instagram Link', 'instagram_url', 'https://instagram.com', 1, 0, 4, 'social'),
+(NULL, 'Youtube Link', 'youtube_url', 'https://youtube.com', 1, 0, 5, 'social');
